@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bennon — Prodeje &amp; Sklad | Bosono</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f5f5f3;
+    --surface: #ffffff;
+    --surface2: #f1efe8;
+    --text: #1a1a18;
+    --text2: #5f5e5a;
+    --border: rgba(0,0,0,0.1);
+    --blue: #378ADD;
+    --blue-light: #E6F1FB;
+    --blue-dark: #185FA5;
+    --green-light: #EAF3DE;
+    --green-dark: #3B6D11;
+    --amber-light: #FAEEDA;
+    --amber-dark: #854F0B;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --surface: #242422;
+      --surface2: #2c2c2a;
+      --text: #e8e8e4;
+      --text2: #888780;
+      --border: rgba(255,255,255,0.1);
+      --blue: #5ba3e8;
+      --blue-light: #0c447c;
+      --blue-dark: #b5d4f4;
+      --green-light: #27500a;
+      --green-dark: #c0dd97;
+      --amber-light: #633806;
+      --amber-dark: #fac775;
+    }
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+  header { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .logo { font-size: 18px; font-weight: 600; color: var(--text); }
+  .logo span { color: var(--blue); }
+  .header-meta { font-size: 12px; color: var(--text2); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .mc { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+  .mc-label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .mc-val { font-size: 22px; font-weight: 600; color: var(--text); }
+  .mc-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+  .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; }
+  .card-title { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+  .filter-row { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .filter-btn { font-size: 12px; padding: 5px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover { border-color: var(--blue); color: var(--text); }
+  .filter-btn.active { background: var(--blue-light); color: var(--blue-dark); border-color: transparent; font-weight: 500; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; font-weight: 500; font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 10px; border-bottom: 0.5px solid var(--border); white-space: nowrap; }
+  td { padding: 8px 10px; border-bottom: 0.5px solid var(--border); color: var(--text); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--surface2); }
+  .site-badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-right: 2px; }
+  .cz { background: var(--blue-light); color: var(--blue-dark); }
+  .sk { background: var(--green-light); color: var(--green-dark); }
+  .de { background: var(--amber-light); color: var(--amber-dark); }
+  .bar-bg { background: var(--surface2); border-radius: 3px; height: 6px; width: 100%; min-width: 60px; }
+  .bar-fill { background: var(--blue); border-radius: 3px; height: 6px; }
+  .chart-wrap { position: relative; width: 100%; height: 320px; }
+  .updated { font-size: 11px; color: var(--text2); text-align: right; margin-top: 1.5rem; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; font-size: 12px; color: var(--text2); }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Bosono <span>×</span> Bennon</div>
+  <div class="header-meta">Prodeje od 1. 5. 2026 &nbsp;·&nbsp; Data: bosonozka.cz / bosonozka.sk / bosono.de</div>
+</header>
+
+<div class="container">
+
+  <div class="filter-row" style="margin-top:0.5rem">
+    <button class="filter-btn active" onclick="setFilter('all')">Všechny e-shopy</button>
+    <button class="filter-btn" onclick="setFilter('cz')"><span class="site-badge cz">CZ</span>&nbsp;bosonozka.cz</button>
+    <button class="filter-btn" onclick="setFilter('sk')"><span class="site-badge sk">SK</span>&nbsp;bosonozka.sk</button>
+    <button class="filter-btn" onclick="setFilter('de')"><span class="site-badge de">DE</span>&nbsp;bosono.de</button>
+  </div>
+
+  <div class="metrics">
+    <div class="mc">
+      <div class="mc-label">Celkový obrat (ex-VAT)</div>
+      <div class="mc-val" id="mc-revenue">—</div>
+      <div class="mc-sub">od 1. 5. 2026</div>
+    </div>
+    <div class="mc">
+      <div class="mc-label">Prodané kusy</div>
+      <div class="mc-val" id="mc-qty">—</div>
+      <div class="mc-sub">od 1. 5. 2026</div>
+    </div>
+    <div class="mc">
+      <div class="mc-label">Aktivní modely</div>
+      <div class="mc-val" id="mc-models">—</div>
+      <div class="mc-sub">s alespoň 1 prodejem</div>
+    </div>
+    <div class="mc">
+      <div class="mc-label">Sklad CZ (ks)</div>
+      <div class="mc-val" id="mc-stock">—</div>
+      <div class="mc-sub">aktuální stav</div>
+    </div>
+    <div class="mc">
+      <div class="mc-label">Průměr / prodané ks</div>
+      <div class="mc-val" id="mc-avg">—</div>
+      <div class="mc-sub">průměrná cena ks</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Obrat podle modelu (top 12)</div>
+      <div class="chart-wrap"><canvas id="chart-rev" role="img" aria-label="Horizontální sloupcový graf obratu Bennon modelů"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Prodané kusy podle modelu (top 12)</div>
+      <div class="chart-wrap"><canvas id="chart-qty" role="img" aria-label="Horizontální sloupcový graf prodaných kusů Bennon modelů"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Všechny modely — detail</div>
+    <div style="overflow-x:auto">
+    <table id="main-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th style="text-align:right">Ks (celkem)</th>
+          <th style="text-align:right">Obrat ex-VAT</th>
+          <th style="text-align:right">Ø cena/ks</th>
+          <th>E-shopy</th>
+          <th style="text-align:right">Sklad CZ</th>
+          <th style="min-width:80px">Rel. obrat</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="updated" id="updated-label"></div>
+</div>
+
+<script>
+const SALES = [
+  {name:"Leather Graphite Black",full:"Barefoot outdoorové boty Bennon - Leather Graphite Black černé",sales:{cz:{qty:34,rev:39917.91},sk:{qty:5,rev:5045.5},de:{qty:0,rev:0}}},
+  {name:"Breeze Grey",full:"Barefoot sportovní tenisky Bennon - Breeze Grey šedé",sales:{cz:{qty:38,rev:38622.28},sk:{qty:7,rev:6890.5},de:{qty:0,rev:0}}},
+  {name:"Outdoor Grey",full:"Barefoot outdoorové boty Bennon - Outdoor Grey šedé",sales:{cz:{qty:22,rev:38175.78},sk:{qty:1,rev:1625.25},de:{qty:0,rev:0}}},
+  {name:"Sport Black",full:"Barefoot sportovní tenisky Bennon - Sport Black černé",sales:{cz:{qty:27,rev:27452.61},sk:{qty:16,rev:15429.75},de:{qty:2,rev:2250}}},
+  {name:"Breeze Khaki",full:"Barefoot sportovní tenisky Bennon - Breeze Khaki zelené",sales:{cz:{qty:19,rev:18936.59},sk:{qty:5,rev:4635},de:{qty:0,rev:0}}},
+  {name:"Sport Brown",full:"Barefoot sportovní tenisky Bennon - Sport Brown hnědé",sales:{cz:{qty:16,rev:15756.97},sk:{qty:8,rev:7396.75},de:{qty:3,rev:3539.5}}},
+  {name:"Sport Grey",full:"Barefoot sportovní tenisky Bennon - Sport Grey šedé",sales:{cz:{qty:14,rev:13794.11},sk:{qty:4,rev:4004.75},de:{qty:0,rev:0}}},
+  {name:"Outdoor Khaki",full:"Barefoot outdoorové boty Bennon - Outdoor Khaki zelené",sales:{cz:{qty:6,rev:11068.94},sk:{qty:1,rev:1625.25},de:{qty:3,rev:5751.5}}},
+  {name:"Sport Khaki",full:"Barefoot sportovní tenisky Bennon - Sport Khaki zelené",sales:{cz:{qty:10,rev:10494.03},sk:{qty:8,rev:7850.5},de:{qty:3,rev:3507.25}}},
+  {name:"Riva Black",full:"Barefoot sportovní tenisky Bennon - Riva Black černé",sales:{cz:{qty:10,rev:9526.02},sk:{qty:8,rev:7340.25},de:{qty:1,rev:1058.5}}},
+  {name:"Bosky pink (dámy)",full:"Barefoot dámské sportovní tenisky Bennon - Bosky pink černorůžové",sales:{cz:{qty:14,rev:10228.11},sk:{qty:2,rev:1534.75},de:{qty:1,rev:728}}},
+  {name:"Bosky black",full:"Barefoot sportovní tenisky Bennon - Bosky black černé",sales:{cz:{qty:14,rev:9295.08},sk:{qty:7,rev:4508.5},de:{qty:1,rev:766.5}}},
+  {name:"Bosky khaki",full:"Barefoot sportovní tenisky Bennon - Bosky khaki zelené",sales:{cz:{qty:12,rev:8333.18},sk:{qty:3,rev:2046},de:{qty:0,rev:0}}},
+  {name:"Bosky trqblack",full:"Barefoot sportovní tenisky Bennon - Bosky trqblack černotyrkysové",sales:{cz:{qty:11,rev:7946.84},sk:{qty:1,rev:852.75},de:{qty:0,rev:0}}},
+  {name:"Leather Black/brown",full:"Barefoot pánské outdoorové boty Bennon - Leather Black/brown černo-hnědé",sales:{cz:{qty:6,rev:7223.98},sk:{qty:1,rev:1340.75},de:{qty:0,rev:0}}},
+  {name:"Leather Brown",full:"Barefoot outdoorové boty Bennon - Leather Brown hnědé",sales:{cz:{qty:6,rev:7220.46},sk:{qty:2,rev:2414},de:{qty:0,rev:0}}},
+  {name:"Outdoor Brown",full:"Barefoot outdoorové boty Bennon - Outdoor Brown hnědé",sales:{cz:{qty:2,rev:3374.52},sk:{qty:0,rev:0},de:{qty:0,rev:0}}},
+  {name:"Bosky black (děti)",full:"Barefoot dětské sportovní tenisky Bennon - Bosky black černé",sales:{cz:{qty:4,rev:2199.99},sk:{qty:1,rev:462.25},de:{qty:0,rev:0}}},
+  {name:"Bosky trqblack (děti)",full:"Barefoot dětské sportovní tenisky Bennon - Bosky trqblack černotyrkysové",sales:{cz:{qty:2,rev:1022.85},sk:{qty:2,rev:1033.5},de:{qty:0,rev:0}}},
+];
+
+const STOCK = {
+  "Barefoot dámské sportovní tenisky Bennon - Bosky pink černorůžové": 32,
+  "Barefoot dětské sportovní tenisky Bennon - Bosky black černé": 38,
+  "Barefoot dětské sportovní tenisky Bennon - Bosky trqblack černotyrkysové": 32,
+  "Barefoot outdoorové boty Bennon - Leather Brown hnědé": 7,
+  "Barefoot outdoorové boty Bennon - Leather Graphite Black černé": 33,
+  "Barefoot outdoorové boty Bennon - Outdoor Brown hnědé": 44,
+  "Barefoot outdoorové boty Bennon - Outdoor Grey šedé": 62,
+  "Barefoot outdoorové boty Bennon - Outdoor Khaki zelené": 30,
+  "Barefoot pánské outdoorové boty Bennon - Leather Black/brown černo-hnědé": 9,
+  "Barefoot sportovní tenisky Bennon - Bosky black černé": 65,
+  "Barefoot sportovní tenisky Bennon - Bosky khaki zelené": 41,
+  "Barefoot sportovní tenisky Bennon - Bosky trqblack černotyrkysové": 43,
+  "Barefoot sportovní tenisky Bennon - Breeze Grey šedé": 76,
+  "Barefoot sportovní tenisky Bennon - Breeze Khaki zelené": 24,
+  "Barefoot sportovní tenisky Bennon - Riva Black černé": 17,
+  "Barefoot sportovní tenisky Bennon - Sport Black černé": 37,
+  "Barefoot sportovní tenisky Bennon - Sport Brown hnědé": 27,
+  "Barefoot sportovní tenisky Bennon - Sport Grey šedé": 10,
+  "Barefoot sportovní tenisky Bennon - Sport Khaki zelené": 30,
+};
+
+const DATA_DATE = '12. 6. 2026';
+const SALES_FROM = '1. 5. 2026';
+
+let activeFilter = 'all';
+let charts = {};
+
+function fmt(v) { return Math.round(v).toLocaleString('cs-CZ'); }
+function fmtCzk(v) { return fmt(v) + ' Kč'; }
+
+function getFiltered() {
+  return SALES.map(m => {
+    let qty = 0, rev = 0;
+    const sites = [];
+    ['cz','sk','de'].forEach(s => {
+      const d = m.sales[s];
+      if (activeFilter === 'all' || activeFilter === s) { qty += d.qty; rev += d.rev; }
+      if (d.qty > 0) sites.push(s);
+    });
+    return {...m, qty, rev, sites, stock: STOCK[m.full] || 0};
+  }).sort((a,b) => b.rev - a.rev);
+}
+
+function setFilter(f) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', ['all','cz','sk','de'][i] === f);
+  });
+  render();
+}
+
+function buildChart(id, labels, data, color) {
+  if (charts[id]) charts[id].destroy();
+  const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+  charts[id] = new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data, backgroundColor: color, borderRadius: 4, borderSkipped: false }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ' + (id === 'chart-rev'
+              ? fmt(ctx.raw) + ' Kč'
+              : fmt(ctx.raw) + ' ks')
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: isDark ? '#888' : '#888', callback: v => id === 'chart-rev' ? fmt(v/1000)+'k' : fmt(v) },
+          grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' }
+        },
+        y: { ticks: { color: isDark ? '#ccc' : '#444', font: { size: 11 }, autoSkip: false } }
+      }
+    }
+  });
+}
+
+function render() {
+  const data = getFiltered();
+  const withSales = data.filter(m => m.qty > 0);
+  const totalRev = withSales.reduce((s,m) => s + m.rev, 0);
+  const totalQty = withSales.reduce((s,m) => s + m.qty, 0);
+  const totalStock = Object.values(STOCK).reduce((a,b) => a+b, 0);
+  const avgPrice = totalQty > 0 ? totalRev / totalQty : 0;
+
+  document.getElementById('mc-revenue').textContent = fmtCzk(totalRev);
+  document.getElementById('mc-qty').textContent = fmt(totalQty) + ' ks';
+  document.getElementById('mc-models').textContent = withSales.length;
+  document.getElementById('mc-stock').textContent = fmt(totalStock) + ' ks';
+  document.getElementById('mc-avg').textContent = fmtCzk(avgPrice);
+  document.getElementById('updated-label').textContent = 'Data ke dni ' + DATA_DATE + ' · Prodeje od ' + SALES_FROM;
+
+  const top = withSales.slice(0, 12).reverse();
+  buildChart('chart-rev', top.map(m=>m.name), top.map(m=>Math.round(m.rev)), '#378ADD');
+  buildChart('chart-qty', top.map(m=>m.name), top.map(m=>m.qty), '#1D9E75');
+
+  const maxRev = Math.max(...withSales.map(m=>m.rev), 1);
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  data.forEach(m => {
+    const pct = m.rev > 0 ? Math.round((m.rev/maxRev)*100) : 0;
+    const siteBadges = m.sites.map(s=>`<span class="site-badge ${s}">${s.toUpperCase()}</span>`).join('');
+    const avgUnit = m.qty > 0 ? fmtCzk(m.rev/m.qty) : '—';
+    const stockCell = m.stock > 0 ? `<strong>${m.stock}</strong>` : '<span style="color:var(--text2)">—</span>';
+    tbody.innerHTML += `<tr title="${m.full}">
+      <td>${m.name}</td>
+      <td style="text-align:right">${m.qty > 0 ? fmt(m.qty) : '—'}</td>
+      <td style="text-align:right">${m.rev > 0 ? fmtCzk(m.rev) : '—'}</td>
+      <td style="text-align:right;color:var(--text2)">${avgUnit}</td>
+      <td>${siteBadges}</td>
+      <td style="text-align:right">${stockCell}</td>
+      <td><div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div></td>
+    </tr>`;
+  });
+}
+
+render();
+</script>
+</body>
+</html>
