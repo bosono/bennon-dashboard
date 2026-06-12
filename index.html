@@ -17,6 +17,7 @@
     --blue: #378ADD;
     --blue-light: #E6F1FB;
     --blue-dark: #185FA5;
+    --green: #1D9E75;
     --green-light: #EAF3DE;
     --green-dark: #3B6D11;
     --amber-light: #FAEEDA;
@@ -26,42 +27,54 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1c1c1a;
-      --surface: #242422;
-      --surface2: #2c2c2a;
-      --text: #e8e8e4;
-      --text2: #888780;
-      --border: rgba(255,255,255,0.1);
-      --blue: #5ba3e8;
-      --blue-light: #0c447c;
-      --blue-dark: #b5d4f4;
-      --green-light: #27500a;
-      --green-dark: #c0dd97;
-      --amber-light: #633806;
-      --amber-dark: #fac775;
+      --bg: #1c1c1a; --surface: #242422; --surface2: #2c2c2a;
+      --text: #e8e8e4; --text2: #888780; --border: rgba(255,255,255,0.1);
+      --blue: #5ba3e8; --blue-light: #0c447c; --blue-dark: #b5d4f4;
+      --green: #2ec090; --green-light: #27500a; --green-dark: #c0dd97;
+      --amber-light: #633806; --amber-dark: #fac775;
     }
   }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
-  header { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  .logo { font-size: 18px; font-weight: 600; color: var(--text); }
+  header { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .logo { font-size: 18px; font-weight: 600; }
   .logo span { color: var(--blue); }
   .header-meta { font-size: 12px; color: var(--text2); }
-  .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
-  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
-  .mc { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem; }
-  .mc-label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-  .mc-val { font-size: 22px; font-weight: 600; color: var(--text); }
-  .mc-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
-  .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; }
-  .card-title { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
-  .filter-row { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-  .filter-btn { font-size: 12px; padding: 5px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .container { max-width: 1140px; margin: 0 auto; padding: 1.25rem 1.5rem; }
+
+  /* Toolbar */
+  .toolbar { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 12px 16px; margin-bottom: 1.25rem; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .toolbar-group { display: flex; align-items: center; gap: 8px; }
+  .toolbar-label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+  .toolbar-sep { width: 0.5px; height: 28px; background: var(--border); }
+  input[type="date"] { font-size: 13px; padding: 5px 10px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--surface2); color: var(--text); cursor: pointer; }
+  input[type="date"]:focus { outline: none; border-color: var(--blue); }
+  .quick-btn { font-size: 12px; padding: 5px 12px; border-radius: var(--radius); border: 0.5px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; white-space: nowrap; transition: all 0.12s; }
+  .quick-btn:hover { border-color: var(--blue); color: var(--text); }
+  .quick-btn.active { background: var(--blue-light); color: var(--blue-dark); border-color: transparent; font-weight: 500; }
+  .filter-btn { font-size: 12px; padding: 5px 12px; border-radius: var(--radius); border: 0.5px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.12s; }
   .filter-btn:hover { border-color: var(--blue); color: var(--text); }
   .filter-btn.active { background: var(--blue-light); color: var(--blue-dark); border-color: transparent; font-weight: 500; }
+
+  /* Metrics */
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+  .mc { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+  .mc-label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
+  .mc-val { font-size: 21px; font-weight: 600; color: var(--text); }
+  .mc-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+  /* Cards */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+  .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .card-title { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+  .chart-wrap { position: relative; width: 100%; }
+
+  /* Table */
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; font-weight: 500; font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 10px; border-bottom: 0.5px solid var(--border); white-space: nowrap; }
+  th { text-align: left; font-weight: 500; font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 10px; border-bottom: 0.5px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none; }
+  th:hover { color: var(--text); }
+  th .sort-arrow { opacity: 0.4; margin-left: 3px; }
+  th.sorted .sort-arrow { opacity: 1; }
   td { padding: 8px 10px; border-bottom: 0.5px solid var(--border); color: var(--text); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
   tbody tr:hover td { background: var(--surface2); }
@@ -71,85 +84,81 @@
   .de { background: var(--amber-light); color: var(--amber-dark); }
   .bar-bg { background: var(--surface2); border-radius: 3px; height: 6px; width: 100%; min-width: 60px; }
   .bar-fill { background: var(--blue); border-radius: 3px; height: 6px; }
-  .chart-wrap { position: relative; width: 100%; height: 320px; }
-  .updated { font-size: 11px; color: var(--text2); text-align: right; margin-top: 1.5rem; }
-  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; font-size: 12px; color: var(--text2); }
-  .legend-item { display: flex; align-items: center; gap: 5px; }
-  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .no-data { text-align: center; padding: 2rem; color: var(--text2); font-size: 13px; }
+  .updated { font-size: 11px; color: var(--text2); text-align: right; margin-top: 1rem; }
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">Bosono <span>×</span> Bennon</div>
-  <div class="header-meta">Prodeje od 1. 5. 2026 &nbsp;·&nbsp; Data: bosonozka.cz / bosonozka.sk / bosono.de</div>
+  <div class="header-meta" id="header-meta">Sklad ke dni 12. 6. 2026</div>
 </header>
 
 <div class="container">
 
-  <div class="filter-row" style="margin-top:0.5rem">
-    <button class="filter-btn active" onclick="setFilter('all')">Všechny e-shopy</button>
-    <button class="filter-btn" onclick="setFilter('cz')"><span class="site-badge cz">CZ</span>&nbsp;bosonozka.cz</button>
-    <button class="filter-btn" onclick="setFilter('sk')"><span class="site-badge sk">SK</span>&nbsp;bosonozka.sk</button>
-    <button class="filter-btn" onclick="setFilter('de')"><span class="site-badge de">DE</span>&nbsp;bosono.de</button>
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-group">
+      <span class="toolbar-label">Období</span>
+      <input type="date" id="date-from" value="2026-05-01">
+      <span style="font-size:13px;color:var(--text2)">–</span>
+      <input type="date" id="date-to" value="2026-06-12">
+    </div>
+    <div class="toolbar-group">
+      <button class="quick-btn" onclick="setQuick('may')">Květen</button>
+      <button class="quick-btn" onclick="setQuick('jun')">Červen</button>
+      <button class="quick-btn active" onclick="setQuick('all')">Vše</button>
+    </div>
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-group">
+      <span class="toolbar-label">E-shop</span>
+      <button class="filter-btn active" onclick="setSite('all')">Vše</button>
+      <button class="filter-btn" onclick="setSite('cz')"><span class="site-badge cz">CZ</span></button>
+      <button class="filter-btn" onclick="setSite('sk')"><span class="site-badge sk">SK</span></button>
+      <button class="filter-btn" onclick="setSite('de')"><span class="site-badge de">DE</span></button>
+    </div>
   </div>
 
+  <!-- Metrics -->
   <div class="metrics">
-    <div class="mc">
-      <div class="mc-label">Celkový obrat (ex-VAT)</div>
-      <div class="mc-val" id="mc-revenue">—</div>
-      <div class="mc-sub">od 1. 5. 2026</div>
-    </div>
-    <div class="mc">
-      <div class="mc-label">Prodané kusy</div>
-      <div class="mc-val" id="mc-qty">—</div>
-      <div class="mc-sub">od 1. 5. 2026</div>
-    </div>
-    <div class="mc">
-      <div class="mc-label">Aktivní modely</div>
-      <div class="mc-val" id="mc-models">—</div>
-      <div class="mc-sub">s alespoň 1 prodejem</div>
-    </div>
-    <div class="mc">
-      <div class="mc-label">Sklad CZ (ks)</div>
-      <div class="mc-val" id="mc-stock">—</div>
-      <div class="mc-sub">aktuální stav</div>
-    </div>
-    <div class="mc">
-      <div class="mc-label">Průměr / prodané ks</div>
-      <div class="mc-val" id="mc-avg">—</div>
-      <div class="mc-sub">průměrná cena ks</div>
-    </div>
+    <div class="mc"><div class="mc-label">Obrat ex-VAT</div><div class="mc-val" id="mc-revenue">—</div><div class="mc-sub" id="mc-period">—</div></div>
+    <div class="mc"><div class="mc-label">Prodané kusy</div><div class="mc-val" id="mc-qty">—</div><div class="mc-sub">ve vybraném období</div></div>
+    <div class="mc"><div class="mc-label">Aktivní modely</div><div class="mc-val" id="mc-models">—</div><div class="mc-sub">s alespoň 1 prodejem</div></div>
+    <div class="mc"><div class="mc-label">Ø cena / ks</div><div class="mc-val" id="mc-avg">—</div><div class="mc-sub">průměrná prodejní cena</div></div>
+    <div class="mc"><div class="mc-label">Sklad CZ (ks)</div><div class="mc-val" id="mc-stock">—</div><div class="mc-sub">aktuální stav</div></div>
   </div>
 
+  <!-- Charts -->
   <div class="grid-2">
     <div class="card">
       <div class="card-title">Obrat podle modelu (top 12)</div>
-      <div class="chart-wrap"><canvas id="chart-rev" role="img" aria-label="Horizontální sloupcový graf obratu Bennon modelů"></canvas></div>
+      <div class="chart-wrap" style="height:320px"><canvas id="chart-rev" role="img" aria-label="Obrat Bennon modelů"></canvas></div>
     </div>
     <div class="card">
-      <div class="card-title">Prodané kusy podle modelu (top 12)</div>
-      <div class="chart-wrap"><canvas id="chart-qty" role="img" aria-label="Horizontální sloupcový graf prodaných kusů Bennon modelů"></canvas></div>
+      <div class="card-title">Denní obrat — průběh</div>
+      <div class="chart-wrap" style="height:320px"><canvas id="chart-daily" role="img" aria-label="Denní obrat Bennon"></canvas></div>
     </div>
   </div>
 
+  <!-- Table -->
   <div class="card">
     <div class="card-title">Všechny modely — detail</div>
     <div style="overflow-x:auto">
-    <table id="main-table">
-      <thead>
-        <tr>
-          <th>Model</th>
-          <th style="text-align:right">Ks (celkem)</th>
-          <th style="text-align:right">Obrat ex-VAT</th>
-          <th style="text-align:right">Ø cena/ks</th>
-          <th>E-shopy</th>
-          <th style="text-align:right">Sklad CZ</th>
-          <th style="min-width:80px">Rel. obrat</th>
-        </tr>
-      </thead>
-      <tbody id="table-body"></tbody>
-    </table>
+      <table id="main-table">
+        <thead>
+          <tr>
+            <th onclick="sortBy('name')" style="width:30%">Model <span class="sort-arrow">↕</span></th>
+            <th onclick="sortBy('qty')" style="text-align:right">Ks <span class="sort-arrow">↕</span></th>
+            <th onclick="sortBy('rev')" style="text-align:right">Obrat ex-VAT <span class="sort-arrow">↕</span></th>
+            <th onclick="sortBy('avg')" style="text-align:right">Ø cena/ks <span class="sort-arrow">↕</span></th>
+            <th>E-shopy</th>
+            <th onclick="sortBy('stock')" style="text-align:right">Sklad CZ <span class="sort-arrow">↕</span></th>
+            <th style="min-width:80px">Rel. obrat</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
     </div>
   </div>
 
@@ -157,147 +166,175 @@
 </div>
 
 <script>
-const SALES = [
-  {name:"Leather Graphite Black",full:"Barefoot outdoorové boty Bennon - Leather Graphite Black černé",sales:{cz:{qty:34,rev:39917.91},sk:{qty:5,rev:5045.5},de:{qty:0,rev:0}}},
-  {name:"Breeze Grey",full:"Barefoot sportovní tenisky Bennon - Breeze Grey šedé",sales:{cz:{qty:38,rev:38622.28},sk:{qty:7,rev:6890.5},de:{qty:0,rev:0}}},
-  {name:"Outdoor Grey",full:"Barefoot outdoorové boty Bennon - Outdoor Grey šedé",sales:{cz:{qty:22,rev:38175.78},sk:{qty:1,rev:1625.25},de:{qty:0,rev:0}}},
-  {name:"Sport Black",full:"Barefoot sportovní tenisky Bennon - Sport Black černé",sales:{cz:{qty:27,rev:27452.61},sk:{qty:16,rev:15429.75},de:{qty:2,rev:2250}}},
-  {name:"Breeze Khaki",full:"Barefoot sportovní tenisky Bennon - Breeze Khaki zelené",sales:{cz:{qty:19,rev:18936.59},sk:{qty:5,rev:4635},de:{qty:0,rev:0}}},
-  {name:"Sport Brown",full:"Barefoot sportovní tenisky Bennon - Sport Brown hnědé",sales:{cz:{qty:16,rev:15756.97},sk:{qty:8,rev:7396.75},de:{qty:3,rev:3539.5}}},
-  {name:"Sport Grey",full:"Barefoot sportovní tenisky Bennon - Sport Grey šedé",sales:{cz:{qty:14,rev:13794.11},sk:{qty:4,rev:4004.75},de:{qty:0,rev:0}}},
-  {name:"Outdoor Khaki",full:"Barefoot outdoorové boty Bennon - Outdoor Khaki zelené",sales:{cz:{qty:6,rev:11068.94},sk:{qty:1,rev:1625.25},de:{qty:3,rev:5751.5}}},
-  {name:"Sport Khaki",full:"Barefoot sportovní tenisky Bennon - Sport Khaki zelené",sales:{cz:{qty:10,rev:10494.03},sk:{qty:8,rev:7850.5},de:{qty:3,rev:3507.25}}},
-  {name:"Riva Black",full:"Barefoot sportovní tenisky Bennon - Riva Black černé",sales:{cz:{qty:10,rev:9526.02},sk:{qty:8,rev:7340.25},de:{qty:1,rev:1058.5}}},
-  {name:"Bosky pink (dámy)",full:"Barefoot dámské sportovní tenisky Bennon - Bosky pink černorůžové",sales:{cz:{qty:14,rev:10228.11},sk:{qty:2,rev:1534.75},de:{qty:1,rev:728}}},
-  {name:"Bosky black",full:"Barefoot sportovní tenisky Bennon - Bosky black černé",sales:{cz:{qty:14,rev:9295.08},sk:{qty:7,rev:4508.5},de:{qty:1,rev:766.5}}},
-  {name:"Bosky khaki",full:"Barefoot sportovní tenisky Bennon - Bosky khaki zelené",sales:{cz:{qty:12,rev:8333.18},sk:{qty:3,rev:2046},de:{qty:0,rev:0}}},
-  {name:"Bosky trqblack",full:"Barefoot sportovní tenisky Bennon - Bosky trqblack černotyrkysové",sales:{cz:{qty:11,rev:7946.84},sk:{qty:1,rev:852.75},de:{qty:0,rev:0}}},
-  {name:"Leather Black/brown",full:"Barefoot pánské outdoorové boty Bennon - Leather Black/brown černo-hnědé",sales:{cz:{qty:6,rev:7223.98},sk:{qty:1,rev:1340.75},de:{qty:0,rev:0}}},
-  {name:"Leather Brown",full:"Barefoot outdoorové boty Bennon - Leather Brown hnědé",sales:{cz:{qty:6,rev:7220.46},sk:{qty:2,rev:2414},de:{qty:0,rev:0}}},
-  {name:"Outdoor Brown",full:"Barefoot outdoorové boty Bennon - Outdoor Brown hnědé",sales:{cz:{qty:2,rev:3374.52},sk:{qty:0,rev:0},de:{qty:0,rev:0}}},
-  {name:"Bosky black (děti)",full:"Barefoot dětské sportovní tenisky Bennon - Bosky black černé",sales:{cz:{qty:4,rev:2199.99},sk:{qty:1,rev:462.25},de:{qty:0,rev:0}}},
-  {name:"Bosky trqblack (děti)",full:"Barefoot dětské sportovní tenisky Bennon - Bosky trqblack černotyrkysové",sales:{cz:{qty:2,rev:1022.85},sk:{qty:2,rev:1033.5},de:{qty:0,rev:0}}},
-];
+const RAW = [{"d":"2026-05-01","s":"cz","n":"Outdoor Grey","q":1,"r":2065.29},{"d":"2026-05-01","s":"cz","n":"Breeze Grey","q":1,"r":1197.52},{"d":"2026-05-01","s":"cz","n":"Sport Brown","q":1,"r":1077.77},{"d":"2026-05-02","s":"de","n":"Outdoor Khaki","q":1,"r":2282.5},{"d":"2026-05-02","s":"sk","n":"Leather Brown","q":1,"r":1340.75},{"d":"2026-05-02","s":"sk","n":"Leather Black/brown","q":1,"r":1340.75},{"d":"2026-05-03","s":"cz","n":"Breeze Grey","q":1,"r":1077.77},{"d":"2026-05-03","s":"cz","n":"Breeze Khaki","q":1,"r":1077.77},{"d":"2026-05-03","s":"cz","n":"Sport Black","q":1,"r":1197.52},{"d":"2026-05-04","s":"cz","n":"Leather Graphite Black","q":2,"r":2725.62},{"d":"2026-05-04","s":"sk","n":"Sport Black","q":1,"r":1178},{"d":"2026-05-05","s":"cz","n":"Leather Graphite Black","q":1,"r":1362.81},{"d":"2026-05-05","s":"cz","n":"Outdoor Grey","q":2,"r":4130.58},{"d":"2026-05-05","s":"cz","n":"Sport Grey","q":1,"r":1197.52},{"d":"2026-05-06","s":"cz","n":"Outdoor Grey","q":1,"r":1858.76},{"d":"2026-05-06","s":"cz","n":"Leather Black/brown","q":1,"r":1362.81},{"d":"2026-05-06","s":"cz","n":"Breeze Grey","q":1,"r":1197.52},{"d":"2026-05-06","s":"cz","n":"Breeze Khaki","q":1,"r":1197.52},{"d":"2026-05-06","s":"sk","n":"Sport Grey","q":1,"r":1178},{"d":"2026-05-07","s":"cz","n":"Leather Graphite Black","q":2,"r":2643.85},{"d":"2026-05-07","s":"cz","n":"Outdoor Grey","q":1,"r":1858.76},{"d":"2026-05-07","s":"cz","n":"Breeze Grey","q":3,"r":3592.56},{"d":"2026-05-08","s":"cz","n":"Leather Graphite Black","q":1,"r":1158.39},{"d":"2026-05-08","s":"sk","n":"Breeze Khaki","q":1,"r":1001.25},{"d":"2026-05-08","s":"sk","n":"Sport Black","q":1,"r":1001.25},{"d":"2026-05-09","s":"cz","n":"Leather Graphite Black","q":2,"r":2316.78},{"d":"2026-05-09","s":"cz","n":"Outdoor Grey","q":2,"r":3511},{"d":"2026-05-09","s":"cz","n":"Outdoor Khaki","q":1,"r":1755.5},{"d":"2026-05-09","s":"cz","n":"Breeze Grey","q":1,"r":1017.89},{"d":"2026-05-09","s":"sk","n":"Sport Black","q":1,"r":1001.25},{"d":"2026-05-10","s":"cz","n":"Leather Graphite Black","q":1,"r":1158.39},{"d":"2026-05-10","s":"cz","n":"Outdoor Brown","q":1,"r":1755.5},{"d":"2026-05-10","s":"cz","n":"Outdoor Grey","q":1,"r":1755.5},{"d":"2026-05-10","s":"cz","n":"Outdoor Khaki","q":1,"r":1755.5},{"d":"2026-05-10","s":"cz","n":"Breeze Grey","q":3,"r":3053.67},{"d":"2026-05-10","s":"cz","n":"Breeze Khaki","q":1,"r":1017.89},{"d":"2026-05-10","s":"cz","n":"Sport Black","q":1,"r":1017.89},{"d":"2026-05-10","s":"cz","n":"Sport Brown","q":1,"r":1017.89},{"d":"2026-05-10","s":"cz","n":"Sport Grey","q":1,"r":1017.89},{"d":"2026-05-10","s":"cz","n":"Sport Khaki","q":1,"r":1017.89},{"d":"2026-05-10","s":"de","n":"Sport Khaki","q":2,"r":2250},{"d":"2026-05-11","s":"cz","n":"Leather Brown","q":1,"r":1158.39},{"d":"2026-05-11","s":"cz","n":"Leather Graphite Black","q":1,"r":1158.39},{"d":"2026-05-11","s":"cz","n":"Outdoor Grey","q":2,"r":3511},{"d":"2026-05-11","s":"cz","n":"Breeze Grey","q":3,"r":3053.67},{"d":"2026-05-11","s":"cz","n":"Breeze Khaki","q":2,"r":2035.78},{"d":"2026-05-11","s":"cz","n":"Sport Black","q":1,"r":1197.52},{"d":"2026-05-11","s":"cz","n":"Sport Brown","q":1,"r":1017.89},{"d":"2026-05-11","s":"cz","n":"Sport Grey","q":1,"r":1197.52},{"d":"2026-05-11","s":"cz","n":"Sport Khaki","q":1,"r":1197.52},{"d":"2026-05-11","s":"de","n":"Sport Black","q":2,"r":2250},{"d":"2026-05-11","s":"sk","n":"Breeze Grey","q":1,"r":1001.25},{"d":"2026-05-11","s":"sk","n":"Sport Khaki","q":1,"r":1001.25},{"d":"2026-05-12","s":"cz","n":"Leather Graphite Black","q":1,"r":1362.81},{"d":"2026-05-12","s":"cz","n":"Outdoor Grey","q":1,"r":1755.5},{"d":"2026-05-12","s":"cz","n":"Outdoor Khaki","q":1,"r":2065.29},{"d":"2026-05-12","s":"cz","n":"Sport Khaki","q":2,"r":2215.41},{"d":"2026-05-12","s":"sk","n":"Sport Khaki","q":1,"r":1178},{"d":"2026-05-13","s":"cz","n":"Outdoor Khaki","q":1,"r":1981.82},{"d":"2026-05-13","s":"cz","n":"Sport Grey","q":1,"r":692.23},{"d":"2026-05-13","s":"sk","n":"Breeze Khaki","q":1,"r":901.25},{"d":"2026-05-14","s":"cz","n":"Outdoor Grey","q":1,"r":1994.21},{"d":"2026-05-14","s":"cz","n":"Sport Black","q":1,"r":975.04},{"d":"2026-05-14","s":"cz","n":"Sport Grey","q":1,"r":926.94},{"d":"2026-05-14","s":"cz","n":"Sport Khaki","q":1,"r":1112.83},{"d":"2026-05-15","s":"cz","n":"Leather Brown","q":1,"r":1328.1},{"d":"2026-05-16","s":"cz","n":"Leather Graphite Black","q":2,"r":2279.97},{"d":"2026-05-16","s":"cz","n":"Breeze Grey","q":1,"r":1171.9},{"d":"2026-05-16","s":"cz","n":"Sport Black","q":1,"r":1145.45},{"d":"2026-05-17","s":"cz","n":"Leather Graphite Black","q":2,"r":2429.25},{"d":"2026-05-17","s":"sk","n":"Leather Graphite Black","q":1,"r":1182.5},{"d":"2026-05-18","s":"cz","n":"Outdoor Grey","q":1,"r":1709.13},{"d":"2026-05-18","s":"cz","n":"Breeze Khaki","q":2,"r":2115.94},{"d":"2026-05-18","s":"cz","n":"Sport Black","q":1,"r":1063.74},{"d":"2026-05-18","s":"cz","n":"Sport Brown","q":1,"r":846.69},{"d":"2026-05-18","s":"cz","n":"Sport Grey","q":1,"r":860.33},{"d":"2026-05-18","s":"sk","n":"Sport Khaki","q":1,"r":960},{"d":"2026-05-19","s":"cz","n":"Leather Graphite Black","q":4,"r":4995.53},{"d":"2026-05-19","s":"cz","n":"Leather Black/brown","q":1,"r":1067.77},{"d":"2026-05-19","s":"cz","n":"Bosky black","q":1,"r":780.25},{"d":"2026-05-19","s":"cz","n":"Bosky khaki","q":1,"r":719.56},{"d":"2026-05-19","s":"cz","n":"Sport Black","q":2,"r":1651.68},{"d":"2026-05-20","s":"cz","n":"Bosky black (děti)","q":1,"r":530.78},{"d":"2026-05-20","s":"cz","n":"Leather Graphite Black","q":2,"r":2061.82},{"d":"2026-05-20","s":"cz","n":"Outdoor Grey","q":1,"r":1652.07},{"d":"2026-05-20","s":"cz","n":"Bosky khaki","q":2,"r":1213.43},{"d":"2026-05-20","s":"cz","n":"Breeze Grey","q":1,"r":775.86},{"d":"2026-05-20","s":"cz","n":"Riva Black","q":1,"r":957.85},{"d":"2026-05-20","s":"cz","n":"Sport Grey","q":2,"r":1661.48},{"d":"2026-05-20","s":"cz","n":"Sport Khaki","q":1,"r":860.33},{"d":"2026-05-20","s":"sk","n":"Breeze Grey","q":1,"r":1178},{"d":"2026-05-21","s":"cz","n":"Bosky pink (dámy)","q":1,"r":693.39},{"d":"2026-05-21","s":"cz","n":"Bosky trqblack (děti)","q":1,"r":469.96},{"d":"2026-05-21","s":"cz","n":"Leather Graphite Black","q":1,"r":927.27},{"d":"2026-05-21","s":"cz","n":"Outdoor Grey","q":2,"r":3304.14},{"d":"2026-05-21","s":"cz","n":"Leather Black/brown","q":1,"r":1090.91},{"d":"2026-05-21","s":"cz","n":"Bosky khaki","q":1,"r":693.39},{"d":"2026-05-21","s":"cz","n":"Bosky trqblack","q":2,"r":1261.96},{"d":"2026-05-21","s":"cz","n":"Breeze Grey","q":2,"r":1772.02},{"d":"2026-05-21","s":"cz","n":"Breeze Khaki","q":1,"r":881.22},{"d":"2026-05-21","s":"cz","n":"Riva Black","q":1,"r":957.85},{"d":"2026-05-21","s":"cz","n":"Sport Black","q":2,"r":1819.92},{"d":"2026-05-21","s":"cz","n":"Sport Brown","q":1,"r":957.85},{"d":"2026-05-21","s":"cz","n":"Sport Khaki","q":2,"r":1752.86},{"d":"2026-05-21","s":"sk","n":"Bosky trqblack (děti)","q":1,"r":489.5},{"d":"2026-05-21","s":"sk","n":"Leather Graphite Black","q":3,"r":2897.25},{"d":"2026-05-21","s":"sk","n":"Bosky black","q":2,"r":1193.75},{"d":"2026-05-21","s":"sk","n":"Breeze Khaki","q":1,"r":848},{"d":"2026-05-21","s":"sk","n":"Riva Black","q":1,"r":848},{"d":"2026-05-21","s":"sk","n":"Sport Brown","q":1,"r":801},{"d":"2026-05-22","s":"cz","n":"Bosky pink (dámy)","q":2,"r":1386.78},{"d":"2026-05-22","s":"cz","n":"Leather Graphite Black","q":2,"r":1843.63},{"d":"2026-05-22","s":"cz","n":"Outdoor Grey","q":2,"r":2791.99},{"d":"2026-05-22","s":"cz","n":"Bosky black","q":1,"r":637.92},{"d":"2026-05-22","s":"cz","n":"Breeze Grey","q":2,"r":1975.74},{"d":"2026-05-22","s":"cz","n":"Riva Black","q":1,"r":938.69},{"d":"2026-05-22","s":"cz","n":"Sport Brown","q":2,"r":1800.76},{"d":"2026-05-22","s":"de","n":"Bosky black","q":1,"r":766.5},{"d":"2026-05-22","s":"de","n":"Sport Brown","q":1,"r":1058.5},{"d":"2026-05-22","s":"sk","n":"Outdoor Khaki","q":1,"r":1625.25},{"d":"2026-05-22","s":"sk","n":"Bosky black","q":1,"r":682},{"d":"2026-05-22","s":"sk","n":"Breeze Grey","q":1,"r":942.25},{"d":"2026-05-22","s":"sk","n":"Sport Black","q":3,"r":2826.75},{"d":"2026-05-23","s":"cz","n":"Leather Graphite Black","q":2,"r":2181.82},{"d":"2026-05-23","s":"cz","n":"Outdoor Grey","q":1,"r":1652.07},{"d":"2026-05-23","s":"cz","n":"Breeze Grey","q":1,"r":957.85},{"d":"2026-05-23","s":"cz","n":"Sport Black","q":2,"r":1896.54},{"d":"2026-05-23","s":"cz","n":"Sport Grey","q":1,"r":957.85},{"d":"2026-05-23","s":"sk","n":"Breeze Khaki","q":2,"r":1884.5},{"d":"2026-05-23","s":"sk","n":"Sport Khaki","q":2,"r":1884.5},{"d":"2026-05-24","s":"cz","n":"Bosky black (děti)","q":2,"r":967.56},{"d":"2026-05-24","s":"cz","n":"Leather Brown","q":1,"r":1090.91},{"d":"2026-05-24","s":"cz","n":"Leather Graphite Black","q":1,"r":1090.91},{"d":"2026-05-24","s":"cz","n":"Outdoor Grey","q":1,"r":1552.94},{"d":"2026-05-24","s":"cz","n":"Outdoor Khaki","q":1,"r":1652.07},{"d":"2026-05-24","s":"cz","n":"Bosky black","q":3,"r":1941.49},{"d":"2026-05-24","s":"cz","n":"Bosky khaki","q":1,"r":693.39},{"d":"2026-05-24","s":"cz","n":"Breeze Grey","q":3,"r":2835.24},{"d":"2026-05-24","s":"cz","n":"Breeze Khaki","q":2,"r":1915.7},{"d":"2026-05-24","s":"cz","n":"Riva Black","q":1,"r":862.07},{"d":"2026-05-24","s":"cz","n":"Sport Black","q":1,"r":957.85},{"d":"2026-05-24","s":"cz","n":"Sport Grey","q":1,"r":919.54},{"d":"2026-05-24","s":"sk","n":"Bosky black (děti)","q":1,"r":462.25},{"d":"2026-05-24","s":"sk","n":"Breeze Grey","q":1,"r":942.25},{"d":"2026-05-24","s":"sk","n":"Riva Black","q":1,"r":942.25},{"d":"2026-05-24","s":"sk","n":"Sport Black","q":2,"r":1884.5},{"d":"2026-05-24","s":"sk","n":"Sport Grey","q":1,"r":942.25},{"d":"2026-05-25","s":"cz","n":"Bosky pink (dámy)","q":1,"r":693.39},{"d":"2026-05-25","s":"cz","n":"Leather Brown","q":1,"r":1362.81},{"d":"2026-05-25","s":"cz","n":"Bosky khaki","q":2,"r":1386.78},{"d":"2026-05-25","s":"cz","n":"Breeze Grey","q":2,"r":1915.7},{"d":"2026-05-25","s":"cz","n":"Breeze Khaki","q":2,"r":1896.54},{"d":"2026-05-25","s":"cz","n":"Riva Black","q":3,"r":2720.29},{"d":"2026-05-25","s":"cz","n":"Sport Brown","q":2,"r":2007.75},{"d":"2026-05-25","s":"sk","n":"Bosky black","q":2,"r":1323.25},{"d":"2026-05-25","s":"sk","n":"Breeze Grey","q":1,"r":942.25},{"d":"2026-05-25","s":"sk","n":"Riva Black","q":3,"r":2742},{"d":"2026-05-25","s":"sk","n":"Sport Black","q":3,"r":2826.75},{"d":"2026-05-25","s":"sk","n":"Sport Grey","q":1,"r":942.25},{"d":"2026-05-25","s":"sk","n":"Sport Khaki","q":2,"r":1884.5},{"d":"2026-05-26","s":"cz","n":"Bosky pink (dámy)","q":2,"r":1386.78},{"d":"2026-05-26","s":"cz","n":"Leather Graphite Black","q":2,"r":2181.82},{"d":"2026-05-26","s":"cz","n":"Outdoor Brown","q":1,"r":1619.02},{"d":"2026-05-26","s":"cz","n":"Breeze Grey","q":3,"r":2854.39},{"d":"2026-05-26","s":"cz","n":"Sport Black","q":2,"r":1839.07},{"d":"2026-05-26","s":"sk","n":"Bosky trqblack (děti)","q":1,"r":544},{"d":"2026-05-26","s":"sk","n":"Bosky black","q":1,"r":682},{"d":"2026-05-26","s":"sk","n":"Riva Black","q":1,"r":942.25},{"d":"2026-05-26","s":"sk","n":"Sport Black","q":3,"r":2826.75},{"d":"2026-05-26","s":"sk","n":"Sport Brown","q":3,"r":2826.75},{"d":"2026-05-27","s":"cz","n":"Bosky trqblack (děti)","q":1,"r":552.89},{"d":"2026-05-27","s":"cz","n":"Leather Brown","q":1,"r":1090.91},{"d":"2026-05-27","s":"cz","n":"Outdoor Grey","q":1,"r":1486.86},{"d":"2026-05-27","s":"cz","n":"Leather Black/brown","q":1,"r":1090.91},{"d":"2026-05-27","s":"cz","n":"Bosky black","q":1,"r":637.92},{"d":"2026-05-27","s":"cz","n":"Bosky khaki","q":2,"r":1386.78},{"d":"2026-05-27","s":"cz","n":"Sport Brown","q":1,"r":957.85},{"d":"2026-05-27","s":"de","n":"Outdoor Khaki","q":2,"r":3469},{"d":"2026-05-27","s":"sk","n":"Bosky khaki","q":1,"r":682},{"d":"2026-05-27","s":"sk","n":"Sport Black","q":1,"r":942.25},{"d":"2026-05-27","s":"sk","n":"Sport Brown","q":1,"r":942.25},{"d":"2026-05-27","s":"sk","n":"Sport Khaki","q":1,"r":942.25},{"d":"2026-05-28","s":"cz","n":"Sport Black","q":1,"r":957.85},{"d":"2026-05-28","s":"sk","n":"Breeze Grey","q":1,"r":942.25},{"d":"2026-05-28","s":"sk","n":"Sport Black","q":1,"r":942.25},{"d":"2026-05-28","s":"sk","n":"Sport Brown","q":1,"r":942.25},{"d":"2026-05-29","s":"cz","n":"Leather Graphite Black","q":2,"r":2181.82},{"d":"2026-05-29","s":"cz","n":"Bosky black","q":2,"r":1386.78},{"d":"2026-05-29","s":"cz","n":"Bosky trqblack","q":1,"r":693.39},{"d":"2026-05-29","s":"cz","n":"Breeze Grey","q":1,"r":957.85},{"d":"2026-05-29","s":"cz","n":"Sport Black","q":1,"r":957.85},{"d":"2026-05-30","s":"cz","n":"Leather Graphite Black","q":1,"r":1090.91},{"d":"2026-05-30","s":"cz","n":"Sport Black","q":1,"r":957.85},{"d":"2026-05-30","s":"sk","n":"Bosky pink (dámy)","q":1,"r":682},{"d":"2026-05-30","s":"sk","n":"Sport Brown","q":1,"r":942.25},{"d":"2026-05-31","s":"cz","n":"Bosky pink (dámy)","q":5,"r":3466.95},{"d":"2026-05-31","s":"cz","n":"Bosky black","q":5,"r":3217.33},{"d":"2026-05-31","s":"cz","n":"Bosky khaki","q":2,"r":1372.91},{"d":"2026-05-31","s":"cz","n":"Bosky trqblack","q":4,"r":2759.69},{"d":"2026-05-31","s":"cz","n":"Breeze Grey","q":4,"r":3754.77},{"d":"2026-05-31","s":"cz","n":"Breeze Khaki","q":5,"r":4559.38},{"d":"2026-05-31","s":"cz","n":"Riva Black","q":1,"r":957.85},{"d":"2026-05-31","s":"cz","n":"Sport Brown","q":1,"r":957.85},{"d":"2026-05-31","s":"cz","n":"Sport Grey","q":1,"r":957.85},{"d":"2026-05-31","s":"de","n":"Bosky pink (dámy)","q":1,"r":728},{"d":"2026-05-31","s":"de","n":"Riva Black","q":1,"r":1058.5},{"d":"2026-05-31","s":"sk","n":"Leather Brown","q":1,"r":1073.25},{"d":"2026-05-31","s":"sk","n":"Bosky black","q":1,"r":627.5},{"d":"2026-05-31","s":"sk","n":"Bosky khaki","q":1,"r":682},{"d":"2026-05-31","s":"sk","n":"Breeze Grey","q":1,"r":942.25},{"d":"2026-06-01","s":"cz","n":"Outdoor Grey","q":1,"r":1585.98},{"d":"2026-06-01","s":"cz","n":"Bosky black","q":1,"r":693.39},{"d":"2026-06-01","s":"cz","n":"Breeze Grey","q":2,"r":1915.7},{"d":"2026-06-01","s":"cz","n":"Sport Black","q":2,"r":2300},{"d":"2026-06-01","s":"cz","n":"Sport Brown","q":2,"r":1998.43},{"d":"2026-06-01","s":"cz","n":"Sport Grey","q":2,"r":2280.99},{"d":"2026-06-01","s":"de","n":"Sport Khaki","q":1,"r":1257.25},{"d":"2026-06-01","s":"sk","n":"Bosky khaki","q":1,"r":682},{"d":"2026-06-02","s":"cz","n":"Leather Black/brown","q":1,"r":1305.79},{"d":"2026-06-02","s":"cz","n":"Breeze Grey","q":1,"r":1173.57},{"d":"2026-06-02","s":"cz","n":"Riva Black","q":1,"r":957.85},{"d":"2026-06-02","s":"cz","n":"Sport Black","q":1,"r":881.22},{"d":"2026-06-02","s":"sk","n":"Outdoor Grey","q":1,"r":1625.25},{"d":"2026-06-03","s":"cz","n":"Leather Brown","q":1,"r":1189.34},{"d":"2026-06-03","s":"cz","n":"Bosky trqblack","q":1,"r":630.98},{"d":"2026-06-03","s":"cz","n":"Breeze Grey","q":1,"r":1173.57},{"d":"2026-06-03","s":"cz","n":"Sport Black","q":1,"r":862.07},{"d":"2026-06-03","s":"cz","n":"Sport Brown","q":1,"r":1017.89},{"d":"2026-06-04","s":"cz","n":"Breeze Grey","q":1,"r":1197.52},{"d":"2026-06-04","s":"cz","n":"Sport Black","q":1,"r":1143.8},{"d":"2026-06-04","s":"sk","n":"Bosky pink (dámy)","q":1,"r":852.75},{"d":"2026-06-04","s":"sk","n":"Bosky trqblack","q":1,"r":852.75},{"d":"2026-06-04","s":"sk","n":"Riva Black","q":1,"r":942.25},{"d":"2026-06-05","s":"cz","n":"Leather Black/brown","q":1,"r":1305.79},{"d":"2026-06-05","s":"cz","n":"Bosky trqblack","q":2,"r":1733.88},{"d":"2026-06-05","s":"cz","n":"Riva Black","q":1,"r":1173.57},{"d":"2026-06-05","s":"cz","n":"Sport Black","q":1,"r":1149.59},{"d":"2026-06-05","s":"cz","n":"Sport Brown","q":1,"r":957.85},{"d":"2026-06-05","s":"sk","n":"Sport Brown","q":1,"r":942.25},{"d":"2026-06-06","s":"cz","n":"Sport Black","q":1,"r":1197.52},{"d":"2026-06-07","s":"cz","n":"Bosky pink (dámy)","q":1,"r":866.94},{"d":"2026-06-07","s":"cz","n":"Bosky black (děti)","q":1,"r":701.65},{"d":"2026-06-08","s":"cz","n":"Bosky pink (dámy)","q":1,"r":866.94},{"d":"2026-06-08","s":"cz","n":"Outdoor Khaki","q":1,"r":1858.76},{"d":"2026-06-08","s":"cz","n":"Sport Black","q":1,"r":1138.84},{"d":"2026-06-08","s":"cz","n":"Sport Brown","q":1,"r":1140.5},{"d":"2026-06-08","s":"cz","n":"Sport Khaki","q":2,"r":2337.19},{"d":"2026-06-08","s":"sk","n":"Riva Black","q":1,"r":923.5},{"d":"2026-06-08","s":"sk","n":"Sport Grey","q":1,"r":942.25},{"d":"2026-06-09","s":"cz","n":"Bosky pink (dámy)","q":1,"r":866.94},{"d":"2026-06-09","s":"cz","n":"Leather Graphite Black","q":1,"r":1362.81},{"d":"2026-06-09","s":"cz","n":"Bosky khaki","q":1,"r":866.94},{"d":"2026-06-09","s":"cz","n":"Bosky trqblack","q":1,"r":866.94},{"d":"2026-06-09","s":"cz","n":"Breeze Khaki","q":1,"r":1077.69},{"d":"2026-06-09","s":"cz","n":"Sport Black","q":1,"r":1143.8},{"d":"2026-06-09","s":"sk","n":"Leather Graphite Black","q":1,"r":965.75},{"d":"2026-06-10","s":"cz","n":"Breeze Khaki","q":1,"r":1161.16},{"d":"2026-06-10","s":"de","n":"Sport Brown","q":1,"r":1220.5},{"d":"2026-06-11","s":"cz","n":"Leather Graphite Black","q":1,"r":1403.31},{"d":"2026-06-11","s":"cz","n":"Sport Grey","q":1,"r":1123.97},{"d":"2026-06-11","s":"de","n":"Sport Brown","q":1,"r":1260.5}];
 
-const STOCK = {
-  "Barefoot dámské sportovní tenisky Bennon - Bosky pink černorůžové": 32,
-  "Barefoot dětské sportovní tenisky Bennon - Bosky black černé": 38,
-  "Barefoot dětské sportovní tenisky Bennon - Bosky trqblack černotyrkysové": 32,
-  "Barefoot outdoorové boty Bennon - Leather Brown hnědé": 7,
-  "Barefoot outdoorové boty Bennon - Leather Graphite Black černé": 33,
-  "Barefoot outdoorové boty Bennon - Outdoor Brown hnědé": 44,
-  "Barefoot outdoorové boty Bennon - Outdoor Grey šedé": 62,
-  "Barefoot outdoorové boty Bennon - Outdoor Khaki zelené": 30,
-  "Barefoot pánské outdoorové boty Bennon - Leather Black/brown černo-hnědé": 9,
-  "Barefoot sportovní tenisky Bennon - Bosky black černé": 65,
-  "Barefoot sportovní tenisky Bennon - Bosky khaki zelené": 41,
-  "Barefoot sportovní tenisky Bennon - Bosky trqblack černotyrkysové": 43,
-  "Barefoot sportovní tenisky Bennon - Breeze Grey šedé": 76,
-  "Barefoot sportovní tenisky Bennon - Breeze Khaki zelené": 24,
-  "Barefoot sportovní tenisky Bennon - Riva Black černé": 17,
-  "Barefoot sportovní tenisky Bennon - Sport Black černé": 37,
-  "Barefoot sportovní tenisky Bennon - Sport Brown hnědé": 27,
-  "Barefoot sportovní tenisky Bennon - Sport Grey šedé": 10,
-  "Barefoot sportovní tenisky Bennon - Sport Khaki zelené": 30,
-};
+const STOCK = {"Bosky pink (dámy)":32,"Bosky black (děti)":38,"Bosky trqblack (děti)":32,"Leather Brown":7,"Leather Graphite Black":33,"Outdoor Brown":44,"Outdoor Grey":62,"Outdoor Khaki":30,"Leather Black/brown":9,"Bosky black":65,"Bosky khaki":41,"Bosky trqblack":43,"Breeze Grey":76,"Breeze Khaki":24,"Riva Black":17,"Sport Black":37,"Sport Brown":27,"Sport Grey":10,"Sport Khaki":30};
 
-const DATA_DATE = '12. 6. 2026';
-const SALES_FROM = '1. 5. 2026';
-
-let activeFilter = 'all';
+let activeSite = 'all';
+let sortCol = 'rev';
+let sortAsc = false;
 let charts = {};
 
-function fmt(v) { return Math.round(v).toLocaleString('cs-CZ'); }
-function fmtCzk(v) { return fmt(v) + ' Kč'; }
+const dateFrom = document.getElementById('date-from');
+const dateTo = document.getElementById('date-to');
 
-function getFiltered() {
-  return SALES.map(m => {
-    let qty = 0, rev = 0;
-    const sites = [];
-    ['cz','sk','de'].forEach(s => {
-      const d = m.sales[s];
-      if (activeFilter === 'all' || activeFilter === s) { qty += d.qty; rev += d.rev; }
-      if (d.qty > 0) sites.push(s);
-    });
-    return {...m, qty, rev, sites, stock: STOCK[m.full] || 0};
-  }).sort((a,b) => b.rev - a.rev);
-}
+dateFrom.addEventListener('change', () => { clearQuick(); render(); });
+dateTo.addEventListener('change', () => { clearQuick(); render(); });
 
-function setFilter(f) {
-  activeFilter = f;
-  document.querySelectorAll('.filter-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', ['all','cz','sk','de'][i] === f);
-  });
+function clearQuick() { document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active')); }
+
+function setQuick(q) {
+  const btn = [...document.querySelectorAll('.quick-btn')].find(b => b.getAttribute('onclick').includes(`'${q}'`));
+  document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (q === 'may')  { dateFrom.value = '2026-05-01'; dateTo.value = '2026-05-31'; }
+  if (q === 'jun')  { dateFrom.value = '2026-06-01'; dateTo.value = '2026-06-12'; }
+  if (q === 'all')  { dateFrom.value = '2026-05-01'; dateTo.value = '2026-06-12'; }
   render();
 }
 
-function buildChart(id, labels, data, color) {
+function setSite(s) {
+  activeSite = s;
+  document.querySelectorAll('.filter-btn').forEach((b, i) => b.classList.toggle('active', ['all','cz','sk','de'][i] === s));
+  render();
+}
+
+function sortBy(col) {
+  if (sortCol === col) sortAsc = !sortAsc; else { sortCol = col; sortAsc = false; }
+  document.querySelectorAll('th').forEach(th => {
+    th.classList.remove('sorted');
+    const arrow = th.querySelector('.sort-arrow');
+    if (arrow) arrow.textContent = '↕';
+  });
+  const idx = ['name','qty','rev','avg','','stock'].indexOf(col);
+  const ths = document.querySelectorAll('#main-table th');
+  if (ths[idx]) {
+    ths[idx].classList.add('sorted');
+    const arrow = ths[idx].querySelector('.sort-arrow');
+    if (arrow) arrow.textContent = sortAsc ? '↑' : '↓';
+  }
+  render();
+}
+
+function fmt(v) { return Math.round(v).toLocaleString('cs-CZ'); }
+function fmtCzk(v) { return fmt(v) + ' Kč'; }
+function fmtDate(d) { return d.split('-').reverse().join('. '); }
+
+function getAggregated() {
+  const from = dateFrom.value;
+  const to = dateTo.value;
+  const map = {};
+  RAW.forEach(r => {
+    if (r.d < from || r.d > to) return;
+    if (activeSite !== 'all' && r.s !== activeSite) return;
+    if (!map[r.n]) map[r.n] = {name: r.n, qty: 0, rev: 0, sites: new Set(), stock: STOCK[r.n] || 0};
+    map[r.n].qty += r.q;
+    map[r.n].rev += r.r;
+    map[r.n].sites.add(r.s);
+  });
+  return Object.values(map).map(m => ({...m, sites: [...m.sites], avg: m.qty > 0 ? m.rev/m.qty : 0}));
+}
+
+function getDailyTotals() {
+  const from = dateFrom.value;
+  const to = dateTo.value;
+  const map = {};
+  RAW.forEach(r => {
+    if (r.d < from || r.d > to) return;
+    if (activeSite !== 'all' && r.s !== activeSite) return;
+    map[r.d] = (map[r.d] || 0) + r.r;
+  });
+  const days = Object.keys(map).sort();
+  return { labels: days.map(d => d.slice(5).replace('-','.')), values: days.map(d => Math.round(map[d])) };
+}
+
+function buildBarChart(id, labels, data, color, height) {
+  if (charts[id]) charts[id].destroy();
+  const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const wrap = document.getElementById(id).parentElement;
+  wrap.style.height = height + 'px';
+  charts[id] = new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: { labels, datasets: [{ data, backgroundColor: color, borderRadius: 4, borderSkipped: false }] },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.raw) + ' Kč' } } },
+      scales: {
+        x: { ticks: { color: isDark?'#888':'#888', callback: v => fmt(v/1000)+'k' }, grid: { color: isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.05)' } },
+        y: { ticks: { color: isDark?'#ccc':'#444', font: { size: 11 }, autoSkip: false } }
+      }
+    }
+  });
+}
+
+function buildLineChart(id, labels, data) {
   if (charts[id]) charts[id].destroy();
   const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
   charts[id] = new Chart(document.getElementById(id), {
     type: 'bar',
-    data: {
-      labels,
-      datasets: [{ data, backgroundColor: color, borderRadius: 4, borderSkipped: false }]
-    },
+    data: { labels, datasets: [{ data, backgroundColor: '#1D9E75', borderRadius: 3, borderSkipped: false }] },
     options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => ' ' + (id === 'chart-rev'
-              ? fmt(ctx.raw) + ' Kč'
-              : fmt(ctx.raw) + ' ks')
-          }
-        }
-      },
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.raw) + ' Kč' } } },
       scales: {
-        x: {
-          ticks: { color: isDark ? '#888' : '#888', callback: v => id === 'chart-rev' ? fmt(v/1000)+'k' : fmt(v) },
-          grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' }
-        },
-        y: { ticks: { color: isDark ? '#ccc' : '#444', font: { size: 11 }, autoSkip: false } }
+        x: { ticks: { color: isDark?'#888':'#888', font: { size: 10 }, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 }, grid: { display: false } },
+        y: { ticks: { color: isDark?'#888':'#888', callback: v => fmt(v/1000)+'k' }, grid: { color: isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.05)' } }
       }
     }
   });
 }
 
 function render() {
-  const data = getFiltered();
-  const withSales = data.filter(m => m.qty > 0);
-  const totalRev = withSales.reduce((s,m) => s + m.rev, 0);
-  const totalQty = withSales.reduce((s,m) => s + m.qty, 0);
+  let data = getAggregated();
+
+  const totalRev = data.reduce((s,m) => s+m.rev, 0);
+  const totalQty = data.reduce((s,m) => s+m.qty, 0);
   const totalStock = Object.values(STOCK).reduce((a,b) => a+b, 0);
-  const avgPrice = totalQty > 0 ? totalRev / totalQty : 0;
 
   document.getElementById('mc-revenue').textContent = fmtCzk(totalRev);
   document.getElementById('mc-qty').textContent = fmt(totalQty) + ' ks';
-  document.getElementById('mc-models').textContent = withSales.length;
+  document.getElementById('mc-models').textContent = data.length;
+  document.getElementById('mc-avg').textContent = totalQty > 0 ? fmtCzk(totalRev/totalQty) : '—';
   document.getElementById('mc-stock').textContent = fmt(totalStock) + ' ks';
-  document.getElementById('mc-avg').textContent = fmtCzk(avgPrice);
-  document.getElementById('updated-label').textContent = 'Data ke dni ' + DATA_DATE + ' · Prodeje od ' + SALES_FROM;
+  document.getElementById('mc-period').textContent = fmtDate(dateFrom.value) + ' – ' + fmtDate(dateTo.value);
+  document.getElementById('updated-label').textContent = 'Data ke dni 12. 6. 2026';
 
-  const top = withSales.slice(0, 12).reverse();
-  buildChart('chart-rev', top.map(m=>m.name), top.map(m=>Math.round(m.rev)), '#378ADD');
-  buildChart('chart-qty', top.map(m=>m.name), top.map(m=>m.qty), '#1D9E75');
+  // Sort
+  data.sort((a,b) => {
+    let av = sortCol==='name' ? a.name : sortCol==='qty' ? a.qty : sortCol==='rev' ? a.rev : sortCol==='avg' ? a.avg : sortCol==='stock' ? a.stock : a.rev;
+    let bv = sortCol==='name' ? b.name : sortCol==='qty' ? b.qty : sortCol==='rev' ? b.rev : sortCol==='avg' ? b.avg : sortCol==='stock' ? b.stock : b.rev;
+    if (typeof av === 'string') return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+    return sortAsc ? av - bv : bv - av;
+  });
 
-  const maxRev = Math.max(...withSales.map(m=>m.rev), 1);
+  const maxRev = Math.max(...data.map(m=>m.rev), 1);
+
+  // Bar chart (top 12 by rev)
+  const top = [...data].sort((a,b)=>b.rev-a.rev).slice(0,12).reverse();
+  const chartH = Math.max(240, top.length * 32 + 60);
+  buildBarChart('chart-rev', top.map(m=>m.name), top.map(m=>Math.round(m.rev)), '#378ADD', chartH);
+
+  // Daily chart
+  const daily = getDailyTotals();
+  buildLineChart('chart-daily', daily.labels, daily.values);
+
+  // Table
   const tbody = document.getElementById('table-body');
+  if (data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" class="no-data">Žádné prodeje ve vybraném období</td></tr>';
+    return;
+  }
   tbody.innerHTML = '';
   data.forEach(m => {
     const pct = m.rev > 0 ? Math.round((m.rev/maxRev)*100) : 0;
-    const siteBadges = m.sites.map(s=>`<span class="site-badge ${s}">${s.toUpperCase()}</span>`).join('');
-    const avgUnit = m.qty > 0 ? fmtCzk(m.rev/m.qty) : '—';
+    const badges = m.sites.map(s=>`<span class="site-badge ${s}">${s.toUpperCase()}</span>`).join('');
     const stockCell = m.stock > 0 ? `<strong>${m.stock}</strong>` : '<span style="color:var(--text2)">—</span>';
-    tbody.innerHTML += `<tr title="${m.full}">
+    tbody.innerHTML += `<tr>
       <td>${m.name}</td>
-      <td style="text-align:right">${m.qty > 0 ? fmt(m.qty) : '—'}</td>
-      <td style="text-align:right">${m.rev > 0 ? fmtCzk(m.rev) : '—'}</td>
-      <td style="text-align:right;color:var(--text2)">${avgUnit}</td>
-      <td>${siteBadges}</td>
+      <td style="text-align:right">${fmt(m.qty)}</td>
+      <td style="text-align:right">${fmtCzk(m.rev)}</td>
+      <td style="text-align:right;color:var(--text2)">${fmtCzk(m.avg)}</td>
+      <td>${badges}</td>
       <td style="text-align:right">${stockCell}</td>
       <td><div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div></td>
     </tr>`;
